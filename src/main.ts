@@ -1,7 +1,7 @@
 import { format } from 'date-fns';
 import { fr } from 'date-fns/locale';
 import { subDays, isAfter } from 'date-fns';
-import { jobOffers } from '../data/data-job-offer';
+import { jobOffers, type JobOffer } from '../data/data-job-offer';
 
 const jobList = document.getElementById('job-list')!;
 const resultsCount = document.getElementById('results-count')!;
@@ -13,6 +13,14 @@ const locationCheckboxes = document.querySelectorAll<HTMLInputElement>('.locatio
 let searchTerm = '';
 let selectedLocations = new Set<string>();
 let dateFilter: 'all' | '4weeks' | '1month' | '3months' = '3months';
+
+function debounce<T extends (...args: any[]) => void>(fn: T, delay: number): (...args: Parameters<T>) => void {
+  let timeoutId: ReturnType<typeof setTimeout>;
+  return (...args: Parameters<T>) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn(...args), delay);
+  };
+}
 
 function filterJobs() {
   const now = new Date();
@@ -41,10 +49,8 @@ function filterJobs() {
 function renderJobs() {
   const jobs = filterJobs();
 
-  // 🔢 Mise à jour du compteur
   resultsCount.textContent = `${jobs.length} offre${jobs.length > 1 ? 's' : ''} trouvée${jobs.length > 1 ? 's' : ''}`;
 
-  // 🟦 Nettoyage
   jobList.innerHTML = '';
 
   if (jobs.length === 0) {
@@ -54,15 +60,14 @@ function renderJobs() {
 
   noResults.classList.add('hidden');
 
-  // 🧱 Construction des cartes
-  jobs.forEach(job => {
+  const cards = jobs.map(job => {
     const formattedDate = format(job.publishedAt, "d MMM yyyy", { locale: fr });
 
     const skillTags = job.skills
       .map(s => `<span class="skill-tag">${s}</span>`)
       .join('');
 
-    const card = `
+    return `
       <div class="job-card">
         <h2 class="job-title">${job.title}</h2>
         <div class="job-meta">
@@ -73,18 +78,25 @@ function renderJobs() {
         </div>
       </div>
     `;
-
-    jobList.innerHTML += card;
   });
+
+  jobList.innerHTML = cards.join('');
 }
+
+const debouncedSearch = debounce(() => {
+  renderJobs();
+}, 300);
 
 searchInput.addEventListener('input', e => {
   searchTerm = (e.target as HTMLInputElement).value.toLowerCase();
-  renderJobs();
+  debouncedSearch();
 });
 
 dateFilterSelect.addEventListener('change', e => {
-  dateFilter = (e.target as HTMLSelectElement).value as any;
+  const value = (e.target as HTMLSelectElement).value;
+  if (value === 'all' || value === '4weeks' || value === '1month' || value === '3months') {
+    dateFilter = value;
+  }
   renderJobs();
 });
 

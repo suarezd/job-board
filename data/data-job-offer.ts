@@ -1,4 +1,4 @@
-type JobOffer = {
+export type JobOffer = {
   id: number;
   title: string;
   skills: string[];
