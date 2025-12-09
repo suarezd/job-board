@@ -1,0 +1,55 @@
+# Node / npm
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+package-lock.json
+# (on ignore le lockfile car il est régénéré dans Docker, mais tu peux le remettre si tu veux le versionner)
+
+# Vite
+dist/
+.vite/
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# TypeScript
+*.tsbuildinfo
+tsconfig.tsbuildinfo
+
+# Logs
+logs
+*.log
+
+# Environnement
+.env
+.env.local
+.env.*.local
+
+# Éditeurs / IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Docker
+.docker/
+.dockerignore
+docker-compose.override.yml
+
+# Build & cache
+.cache/
+.tmp/
+temp/
+
+# Tests (si tu en ajoutes plus tard)
+coverage/
+jest-cache/
+
+# Divers
+*.bak
+*.tmp
+*.temp
