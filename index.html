@@ -1,13 +1,85 @@
 <!doctype html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Job Board</title>
-    <script type="module" src="/src/main.ts"></script>
-    <link rel="stylesheet" href="/src/style.css" />
-  </head>
-  <body class="bg-gray-50 min-h-screen">
-    <div id="app" class="py-10">Chargement...</div>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Découvrez les dernières offres d'emploi tech en France.">
+  <title>Job Board</title>
+
+  <link rel="stylesheet" href="/src/style.css" />
+
+  <script type="module" src="/src/main.ts" defer></script>
+</head>
+
+<body class="bg-gray-50">
+
+  <div id="app" class="min-h-screen py-10">
+    <header class="max-w-7xl mx-auto px-6">
+      <h1 class="text-4xl font-bold text-gray-900 mb-8">Offres d'emploi</h1>
+    </header>
+
+    <section id="filters" class="bg-white border rounded-lg p-6 mb-8 shadow-sm">
+      <div class="grid md:grid-cols-3 gap-6">
+        <div>
+          <label for="search" class="block text-sm font-medium text-gray-700 mb-2">
+            Recherche (titre / compétence)
+          </label>
+          <input type="text" id="search" placeholder="ex: React, Product Owner…" 
+                 class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none" />
+        </div>
+
+        <div>
+          <fieldset>
+            <legend class="block text-sm font-medium text-gray-700 mb-2">Localisation</legend>
+            <div class="space-y-2">
+              <label class="flex items-center cursor-pointer">
+                <input type="checkbox" value="Paris" class="location-checkbox mr-2 h-4 w-4 text-blue-600 rounded focus:ring-blue-500" />
+                <span>Paris</span>
+              </label>
+              <label class="flex items-center cursor-pointer">
+                <input type="checkbox" value="Bordeaux" class="location-checkbox mr-2 h-4 w-4 text-blue-600 rounded focus:ring-blue-500" />
+                <span>Bordeaux</span>
+              </label>
+              <label class="flex items-center cursor-pointer">
+                <input type="checkbox" value="Marseille" class="location-checkbox mr-2 h-4 w-4 text-blue-600 rounded focus:ring-blue-500" />
+                <span>Marseille</span>
+              </label>
+            </div>
+          </fieldset>
+        </div>
+
+        <div>
+          <label for="dateFilter" class="block text-sm font-medium text-gray-700 mb-2">
+            Date de publication
+          </label>
+          <select id="dateFilter" 
+                  class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none">
+            <option value="3months">3 derniers mois</option>
+            <option value="1month">Dernier mois</option>
+            <option value="4weeks">Dernières 4 semaines</option>
+            <option value="all">Toutes les dates</option>
+          </select>
+        </div>
+      </div>
+    </section>
+
+    <div id="results-count" class="text-gray-700 mb-4 font-medium">
+      12 offres trouvées
+    </div>
+
+    <section id="job-list" class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+    </section>
+
+    <div id="no-results" class="hidden text-center py-12 text-gray-500">
+      Aucune offre ne correspond à vos critères.
+    </div>
+  </div>
+
+  <footer class="py-6 bg-gray-800 text-white text-center">
+    <p>&copy; 2025 JobBoard. Tous droits réservés.</p>
+  </footer>
+
+</body>
+
 </html>

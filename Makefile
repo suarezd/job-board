@@ -16,5 +16,4 @@ clean:
 	docker compose down -v --remove-orphans
 	docker system prune -f
 
-# Pour les devs qui veulent juste lancer en 1 commande
 start: up
